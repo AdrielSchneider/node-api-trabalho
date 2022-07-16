@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 // Conexão com MongoDB
 mongoose.connect(process.env.MONGODB_URI,
@@ -33,6 +34,12 @@ const cors = (req, res, next) => {
 }
 app.use(cors);
 
+app.use('/api', (req, res, next) => {
+  res.status(200).json({
+      message: 'Hello word!'
+  })
+})
+
 app.use((req, res, next) => {
   const error = new Error('Not Found')
   error.status = 404;
@@ -47,5 +54,7 @@ app.use((error, req, res, next) => {
       }
   })
 });
+
+
 
 module.exports = app;
