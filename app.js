@@ -3,6 +3,9 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+require('./api/models/pessoa');
+require('./api/models/endereco');
+
 // Conexão com MongoDB
 mongoose.connect(process.env.MONGODB_URI,
   {
@@ -14,6 +17,9 @@ mongoose.connect(process.env.MONGODB_URI,
   });
 
 const app = express();
+
+const rotaPessoa = require('./api/routes/pessoa-rota');
+const rotaEndereco = require('./api/routes/endereco-rota');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -33,6 +39,9 @@ const cors = (req, res, next) => {
   next();
 }
 app.use(cors);
+
+app.use('/pessoa', rotaPessoa);
+app.use('/endereco', rotaEndereco);
 
 app.use('/api', (req, res, next) => {
   res.status(200).json({
@@ -54,7 +63,5 @@ app.use((error, req, res, next) => {
       }
   })
 });
-
-
 
 module.exports = app;
