@@ -8,5 +8,20 @@ module.exports = {
       quantidade: pessoas.length,
       pessoas: pessoas
     });
+  },
+  find_by_id: async function(req, res, next) {
+    res.status(200).json({
+      message: "Deve retornar uma única pessoa com base no id"
+    })
+  },
+  register: async function(req, res, next) {
+    res.status(200).json({
+      message: "Deve cadastrar uma nova pessoa no BD"
+    })
+  },
+  delete_by_id: async function(req, res, next) {
+    res.status(200).json({
+      message: "Deve deletar uma pessoa do BD"
+    })
   }
 }
