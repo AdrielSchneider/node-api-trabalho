@@ -16,7 +16,7 @@ module.exports = {
       let pessoa = await PessoaModel.findById(req.params.pessoaId);
       let retorno = {pessoa: pessoa};
       
-      if (req.query.comEndereco == true) {
+      if (req.query.comEndereco == 'true') {
         let enderecos = await EnderecoModel.find({pessoa_id: pessoa._id});
         retorno.enderecos = enderecos;
       }
