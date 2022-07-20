@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const PessoaModel = mongoose.model('Pessoa');
+const EnderecoModel = mongoose.model('Endereco');
 
 module.exports = {
   get_all: async function (req, res, next) {
@@ -11,9 +12,17 @@ module.exports = {
   },
   find_by_id: async function (req, res, next) {
     try {
+      
       let pessoa = await PessoaModel.findById(req.params.pessoaId);
+      let retorno = {pessoa: pessoa};
+      
+      if (req.query.comEndereco == true) {
+        let enderecos = await EnderecoModel.find({pessoa_id: pessoa._id});
+        retorno.enderecos = enderecos;
+      }
+
       if (pessoa) {
-        res.status(200).json(pessoa);
+        res.status(200).json(retorno);
       } else {
         res.status(400).json('Pessoa não localizada!');
       }
